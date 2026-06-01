@@ -18,7 +18,7 @@ const sans = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Sổ Tay Của Mây",
+  title: "Blog Của Bông",
   description: "Những mẩu chuyện nhỏ về gia đình, những chuyến đi và ngày thường",
 };
 

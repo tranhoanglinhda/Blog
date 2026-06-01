@@ -34,6 +34,12 @@ service cloud.firestore {
       allow delete: if isAdmin();                // chỉ admin xóa
     }
 
+    // ---------- Sách (tiếp thị liên kết) ----------
+    match /books/{bookId} {
+      allow read: if true;                       // ai cũng xem được
+      allow write: if isAdmin();                 // chỉ admin thêm/sửa/xóa
+    }
+
     // ---------- Cài đặt trang ----------
     match /settings/{docId} {
       allow read: if true;

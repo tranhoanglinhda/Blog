@@ -5,7 +5,7 @@ import { Icon, Logo, primaryBtn } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { getAllComments } from "@/lib/repo";
 
-type View = "dashboard" | "posts" | "comments" | "settings";
+type View = "dashboard" | "posts" | "books" | "comments" | "settings";
 
 const sideBtn: React.CSSProperties = {
   display: "flex", alignItems: "center", gap: 11, width: "100%", padding: "10px 12px",
@@ -43,6 +43,7 @@ export default function AdminShell({
   const nav: { k: View; label: string; icon: string; href: string; badge?: number }[] = [
     { k: "dashboard", label: "Tổng quan", icon: "layout", href: "/admin4869" },
     { k: "posts", label: "Bài viết", icon: "list", href: "/admin4869/posts" },
+    { k: "books", label: "Sách mình đọc", icon: "book", href: "/admin4869/books" },
     { k: "comments", label: "Bình luận", icon: "quote", href: "/admin4869/comments", badge: pending },
     { k: "settings", label: "Cài đặt", icon: "settings", href: "/admin4869/settings" },
   ];
@@ -53,7 +54,7 @@ export default function AdminShell({
         <div style={{ padding: "22px 20px", borderBottom: "1px solid var(--hairline)", display: "flex", alignItems: "center", gap: 10 }}>
           <Logo size={28} />
           <div>
-            <div style={{ fontFamily: "var(--serif)", fontSize: 15.5, fontWeight: 600, lineHeight: 1.1 }}>Sổ Tay Của Mây</div>
+            <div style={{ fontFamily: "var(--serif)", fontSize: 15.5, fontWeight: 600, lineHeight: 1.1 }}>Blog Của Bông</div>
             <div className="meta" style={{ fontSize: 11.5 }}>Bảng điều khiển</div>
           </div>
         </div>

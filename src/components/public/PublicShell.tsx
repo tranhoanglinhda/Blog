@@ -12,6 +12,7 @@ const NAV = [
   { href: "/chu-de/tan-van", label: "Tản văn" },
   { href: "/chu-de/gia-dinh", label: "Gia đình" },
   { href: "/chu-de/du-lich", label: "Du lịch" },
+  { href: "/sach", label: "Sách mình đọc" },
   { href: "/gioi-thieu", label: "Về tôi" },
 ];
 
@@ -28,7 +29,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const title = site?.title ?? "Sổ Tay Của Mây";
+  const title = site?.title ?? "Blog Của Bông";
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -66,7 +67,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
             <Logo size={26} />
             <div>
               <div style={{ fontFamily: "var(--serif)", fontSize: 16, fontWeight: 600 }}>{title}</div>
-              <div className="meta" style={{ fontSize: 12.5 }}>© 2026 · Viết bằng tất cả sự dịu dàng</div>
+              <div className="meta" style={{ fontSize: 12.5 }}>© 2026 · {site?.footer ?? "Viết bằng tất cả sự dịu dàng"}</div>
             </div>
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>

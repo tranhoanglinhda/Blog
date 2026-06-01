@@ -48,6 +48,7 @@ export default function SettingsView() {
         <Field label="Tên tác giả"><input value={site.author} onChange={(e) => update("author", e.target.value)} style={inputStyle} className="fr" /></Field>
         <Field label="Giới thiệu tác giả"><textarea value={site.authorBio} onChange={(e) => update("authorBio", e.target.value)} rows={4} style={{ ...inputStyle, resize: "vertical", lineHeight: 1.5 }} className="fr" /></Field>
         <Field label="Email liên hệ"><input value={site.email} onChange={(e) => update("email", e.target.value)} style={inputStyle} className="fr" /></Field>
+        <Field label="Dòng chân trang"><input value={site.footer} onChange={(e) => update("footer", e.target.value)} style={inputStyle} className="fr" /></Field>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 6 }}>
           <button onClick={save} disabled={busy} className="fr" style={{ ...primaryBtn, cursor: "pointer", opacity: busy ? 0.6 : 1 }}><Icon name="save" size={16} /> Lưu thay đổi</button>
           {saved && <span className="meta" style={{ display: "inline-flex", alignItems: "center", gap: 5, color: "oklch(0.5 0.1 150)" }}><Icon name="check" size={15} /> Đã lưu</span>}

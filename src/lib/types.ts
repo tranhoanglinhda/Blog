@@ -7,9 +7,23 @@ export interface SiteSettings {
   author: string;
   authorBio: string;
   email: string;
+  /** Dòng chữ nhỏ ở chân trang, ví dụ "Viết bằng tất cả sự dịu dàng" */
+  footer: string;
 }
 
 export type TagMap = Record<string, string>; // slug -> display name
+
+export interface Book {
+  id: string;
+  /** Tên sách */
+  title: string;
+  /** Link sản phẩm (Shopee affiliate…) */
+  productUrl: string;
+  /** Link ảnh bìa sách */
+  coverImageUrl: string;
+  /** Đôi lời giới thiệu của tác giả về cuốn sách */
+  note: string;
+}
 
 export interface Post {
   id: string;

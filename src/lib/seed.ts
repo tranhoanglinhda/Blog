@@ -1,12 +1,13 @@
-import type { Post, Comment, SiteSettings, TagMap } from "./types";
+import type { Post, Comment, SiteSettings, TagMap, Book } from "./types";
 
 export const SITE: SiteSettings = {
-  title: "Sổ Tay Của Mây",
+  title: "Blog Của Bông",
   tagline: "Những mẩu chuyện nhỏ về gia đình, những chuyến đi và ngày thường",
   author: "Mây Nguyễn",
   authorBio:
     "Mình viết để giữ lại những điều dễ quên — mùi cà phê sáng, tiếng mưa trên mái tôn, một câu nói của mẹ. Blog này là cuốn sổ tay mình mở ra cho bạn cùng đọc.",
   email: "may@sotaycuamay.com",
+  footer: "Viết bằng tất cả sự dịu dàng",
 };
 
 export const TAGS: TagMap = {
@@ -17,6 +18,23 @@ export const TAGS: TagMap = {
   "bep-nha": "Bếp nhà",
   "tuoi-tre": "Tuổi trẻ",
 };
+
+export const BOOKS: Book[] = [
+  {
+    id: "b1",
+    title: "Tôi nói gì khi nói về chạy bộ",
+    productUrl: "https://shopee.vn/",
+    coverImageUrl: "",
+    note: "Cuốn sách mình mang theo mỗi sáng. Murakami viết về chạy bộ mà hóa ra là viết về sự kiên trì với chính mình.",
+  },
+  {
+    id: "b2",
+    title: "Nếu biết trăm năm là hữu hạn",
+    productUrl: "https://shopee.vn/",
+    coverImageUrl: "",
+    note: "Những trang viết dịu dàng để đọc vào đêm khuya, khi muốn sống chậm lại một chút.",
+  },
+];
 
 const p = (s: string) => `<p>${s}</p>`;
 const h2 = (s: string) => `<h2>${s}</h2>`;

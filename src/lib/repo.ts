@@ -4,8 +4,8 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage, isFirebaseEnabled } from "./firebase";
-import { POSTS, COMMENTS, SITE, TAGS } from "./seed";
-import type { Post, Comment, SiteSettings, TagMap } from "./types";
+import { POSTS, COMMENTS, SITE, TAGS, BOOKS } from "./seed";
+import type { Post, Comment, SiteSettings, TagMap, Book } from "./types";
 
 /* ============================================================
    Repository — Firestore khi đã cấu hình, ngược lại dùng dữ
@@ -16,6 +16,7 @@ import type { Post, Comment, SiteSettings, TagMap } from "./types";
 let memPosts: Post[] = POSTS.map((p) => ({ ...p }));
 let memComments: Comment[] = COMMENTS.map((c) => ({ ...c }));
 let memSettings: SiteSettings = { ...SITE };
+let memBooks: Book[] = BOOKS.map((b) => ({ ...b }));
 
 const sleep = () => new Promise((r) => setTimeout(r, 60));
 
@@ -50,7 +51,7 @@ export function getTags(): TagMap {
 export async function getSettings(): Promise<SiteSettings> {
   if (isFirebaseEnabled && db) {
     const snap = await getDoc(doc(db, "settings", "site"));
-    if (snap.exists()) return snap.data() as SiteSettings;
+    if (snap.exists()) return { ...SITE, ...(snap.data() as Partial<SiteSettings>) };
     return SITE;
   }
   await sleep();
@@ -129,6 +130,44 @@ export async function incrementViews(id: string): Promise<void> {
     return;
   }
   memPosts = memPosts.map((p) => (p.id === id ? { ...p, views: p.views + 1 } : p));
+}
+
+// ---------- Books (tiếp thị liên kết) ----------
+export async function getBooks(): Promise<Book[]> {
+  if (isFirebaseEnabled && db) {
+    const snap = await getDocs(collection(db, "books"));
+    return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Book, "id">) }));
+  }
+  await sleep();
+  return memBooks.map((b) => ({ ...b }));
+}
+
+export async function saveBook(book: Book): Promise<Book> {
+  const { id, ...data } = book;
+  if (isFirebaseEnabled && db) {
+    if (id) {
+      await setDoc(doc(db, "books", id), data, { merge: true });
+      return book;
+    }
+    const ref = await addDoc(collection(db, "books"), data);
+    return { ...book, id: ref.id };
+  }
+  await sleep();
+  if (id && memBooks.some((b) => b.id === id)) {
+    memBooks = memBooks.map((b) => (b.id === id ? book : b));
+    return book;
+  }
+  const created = { ...book, id: id || "b" + Date.now() };
+  memBooks = [...memBooks, created];
+  return created;
+}
+
+export async function deleteBook(id: string): Promise<void> {
+  if (isFirebaseEnabled && db) {
+    await deleteDoc(doc(db, "books", id));
+    return;
+  }
+  memBooks = memBooks.filter((b) => b.id !== id);
 }
 
 // ---------- Comments ----------

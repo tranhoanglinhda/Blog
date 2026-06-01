@@ -32,7 +32,7 @@ export default function LoginView() {
         <div style={{ width: "min(360px, 100%)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 36 }}>
             <Logo size={34} />
-            <span style={{ fontFamily: "var(--serif)", fontSize: 21, fontWeight: 600 }}>Sổ Tay Của Mây</span>
+            <span style={{ fontFamily: "var(--serif)", fontSize: 21, fontWeight: 600 }}>Blog Của Bông</span>
           </div>
           <h1 style={{ margin: "0 0 8px", fontSize: 30 }}>Chào mừng trở lại</h1>
           <p className="meta" style={{ fontSize: 15, marginBottom: 30 }}>Đăng nhập để viết và quản lý bài.</p>
@@ -64,7 +64,7 @@ export default function LoginView() {
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 52, color: "#fff" }}>
           <Icon name="quote" size={40} style={{ opacity: 0.5, marginBottom: 18 }} fill="rgba(255,255,255,0.9)" />
           <p style={{ margin: 0, fontFamily: "var(--serif)", fontSize: 28, lineHeight: 1.35, fontStyle: "italic" }}>“Viết là cách mình giữ lại những điều dễ quên.”</p>
-          <p style={{ margin: "20px 0 0", fontFamily: "var(--sans)", fontSize: 14, opacity: 0.8 }}>Trang quản trị · Sổ Tay Của Mây</p>
+          <p style={{ margin: "20px 0 0", fontFamily: "var(--sans)", fontSize: 14, opacity: 0.8 }}>Trang quản trị · Blog Của Bông</p>
         </div>
       </div>
     </div>
