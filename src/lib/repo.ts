@@ -2,8 +2,7 @@ import {
   collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, deleteDoc,
   query, where, increment,
 } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage, isFirebaseEnabled } from "./firebase";
+import { db, isFirebaseEnabled } from "./firebase";
 import { POSTS, COMMENTS, SITE, TAGS, BOOKS } from "./seed";
 import type { Post, Comment, SiteSettings, TagMap, Book } from "./types";
 
@@ -21,19 +20,38 @@ let memBooks: Book[] = BOOKS.map((b) => ({ ...b }));
 const sleep = () => new Promise((r) => setTimeout(r, 60));
 
 // ---------- Image upload ----------
+const IMGBB_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+
+/** Đọc file thành chuỗi base64 (bỏ tiền tố data:...;base64,). */
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(",")[1] ?? "");
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 /**
- * Tải ảnh lên Firebase Storage và trả về URL công khai.
- * Khi chưa cấu hình Firebase, trả về data URL để xem trước trong bộ nhớ.
+ * Tải ảnh lên ImgBB và trả về URL công khai.
+ * Khi chưa cấu hình NEXT_PUBLIC_IMGBB_API_KEY, trả về data URL để xem
+ * trước trong bộ nhớ (chế độ dữ liệu mẫu).
  */
 export async function uploadImage(file: File): Promise<string> {
-  if (isFirebaseEnabled && storage) {
-    const safeName = file.name.replace(/[^\w.-]+/g, "_");
-    const path = `images/${Date.now()}-${safeName}`;
-    const r = ref(storage, path);
-    await uploadBytes(r, file, { contentType: file.type });
-    return getDownloadURL(r);
+  if (IMGBB_KEY) {
+    const body = new FormData();
+    body.append("image", await fileToBase64(file));
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
+      method: "POST",
+      body,
+    });
+    const json = await res.json();
+    if (!res.ok || !json?.data?.url) {
+      throw new Error(json?.error?.message || "Tải ảnh lên ImgBB thất bại");
+    }
+    return json.data.url as string;
   }
-  // fallback (chế độ dữ liệu mẫu): nhúng ảnh dưới dạng data URL
+  // fallback (chưa cấu hình ImgBB): nhúng ảnh dưới dạng data URL
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
