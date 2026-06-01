@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Icon, CoverArt, btnGhost, primaryBtn, secondaryBtn, inputStyle } from "@/components/ui";
-import { getPostById, getTags, savePost } from "@/lib/repo";
+import { getPostById, getTags, savePost, uploadImage } from "@/lib/repo";
 import { slugify, todayISO, readMinsFromHtml } from "@/lib/format";
 import type { Post, PostStatus } from "@/lib/types";
 import { StatusBadge } from "./AdminShell";
@@ -30,11 +30,14 @@ export default function EditorView({ id }: { id?: string }) {
   const [selTags, setSelTags] = useState<string[]>([]);
   const [hue, setHue] = useState(24);
   const [coverLabel, setCoverLabel] = useState("");
+  const [coverImageUrl, setCoverImageUrl] = useState<string | undefined>(undefined);
   const [featured, setFeatured] = useState(false);
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const uploadTarget = useRef<"cover" | "body">("cover");
 
   // load existing post
   useEffect(() => {
@@ -49,6 +52,7 @@ export default function EditorView({ id }: { id?: string }) {
         setSelTags(p.tags);
         setHue(p.cover.hue);
         setCoverLabel(p.cover.label);
+        setCoverImageUrl(p.coverImageUrl);
         setFeatured(p.featured);
       }
       setLoaded(true);
@@ -66,6 +70,29 @@ export default function EditorView({ id }: { id?: string }) {
     if (!slugTouched) setSlug(slugify(title));
   }, [title, slugTouched]);
 
+  const pickImage = (target: "cover" | "body") => { uploadTarget.current = target; fileRef.current?.click(); };
+
+  const onFilePicked = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // cho phép chọn lại cùng một file
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadImage(file);
+      if (uploadTarget.current === "cover") {
+        setCoverImageUrl(url);
+        if (!coverLabel.trim()) setCoverLabel("Ảnh bìa");
+      } else {
+        bodyRef.current?.focus();
+        document.execCommand("insertImage", false, url);
+      }
+    } catch {
+      alert("Tải ảnh thất bại. Vui lòng thử lại.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const exec = (cmd: string, val?: string) => { document.execCommand(cmd, false, val); bodyRef.current?.focus(); };
   const fmtBlock = (tag: string) => { document.execCommand("formatBlock", false, tag); bodyRef.current?.focus(); };
 
@@ -78,7 +105,7 @@ export default function EditorView({ id }: { id?: string }) {
     { icon: "ul", t: "Danh sách", fn: () => exec("insertUnorderedList") },
     { icon: "link", t: "Liên kết", fn: () => { const u = prompt("Dán đường dẫn:"); if (u) exec("createLink", u); } },
     { sep: true },
-    { icon: "image", t: "Chèn ảnh", fn: () => fileRef.current?.click() },
+    { icon: "image", t: "Chèn ảnh", fn: () => pickImage("body") },
   ];
 
   const doSave = async (status: PostStatus) => {
@@ -94,7 +121,7 @@ export default function EditorView({ id }: { id?: string }) {
       excerpt: excerpt.trim(),
       body,
       cover: { hue, label: coverLabel.trim() },
-      coverImageUrl: existing?.coverImageUrl,
+      coverImageUrl,
       date: existing?.date || todayISO(),
       readMins: readMinsFromHtml(body),
       views: existing?.views ?? 0,
@@ -133,9 +160,10 @@ export default function EditorView({ id }: { id?: string }) {
             <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Tiêu đề bài viết"
               style={{ width: "100%", border: "none", outline: "none", background: "none", fontFamily: "var(--serif)", fontSize: 38, fontWeight: 600, color: "var(--ink)", lineHeight: 1.15, marginBottom: 18, letterSpacing: "-0.02em" }} className="fr" />
             <div style={{ marginBottom: 22 }}>
-              <CoverArt hue={hue} label={coverLabel || "Ảnh bìa"} ratio="16 / 7" big url={existing?.coverImageUrl} />
+              <CoverArt hue={hue} label={coverLabel || "Ảnh bìa"} ratio="16 / 7" big url={coverImageUrl} />
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 10 }}>
-                <button onClick={() => fileRef.current?.click()} className="fr" style={{ ...secondaryBtn, padding: "8px 14px", fontSize: 13, cursor: "pointer" }}><Icon name="image" size={15} /> Tải ảnh bìa</button>
+                <button onClick={() => pickImage("cover")} disabled={uploading} className="fr" style={{ ...secondaryBtn, padding: "8px 14px", fontSize: 13, cursor: "pointer", opacity: uploading ? 0.6 : 1 }}><Icon name="image" size={15} /> {uploading ? "Đang tải…" : "Tải ảnh bìa"}</button>
+                {coverImageUrl && <button onClick={() => setCoverImageUrl(undefined)} className="fr" style={{ ...btnGhost, padding: "8px 12px", fontSize: 13, cursor: "pointer", color: "var(--ink-3)" }}>Gỡ ảnh</button>}
                 <input value={coverLabel} onChange={(e) => setCoverLabel(e.target.value)} placeholder="Chú thích ảnh…" style={{ ...inputStyle, padding: "8px 12px", fontSize: 13, flex: 1 }} className="fr" />
               </div>
             </div>
@@ -153,7 +181,7 @@ export default function EditorView({ id }: { id?: string }) {
 
           <div ref={bodyRef} contentEditable suppressContentEditableWarning className="editor-body thin-scroll"
             style={{ padding: "0 40px", minHeight: 320, outline: "none", fontFamily: "var(--serif)", fontSize: 19, lineHeight: 1.72, color: "var(--ink)" }} />
-          <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={() => alert("Trong bản dựng thật, ảnh sẽ được tải lên kho lưu trữ (Firebase Storage). Đây là bản mô phỏng.")} />
+          <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onFilePicked} />
         </div>
 
         <div style={{ borderLeft: "1px solid var(--hairline)", minHeight: "calc(100vh - 65px)", background: "var(--surface)", padding: "28px 24px", position: "sticky", top: 65, display: "flex", flexDirection: "column", gap: 26 }}>

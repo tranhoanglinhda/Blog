@@ -2,7 +2,8 @@ import {
   collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, deleteDoc,
   query, where, increment,
 } from "firebase/firestore";
-import { db, isFirebaseEnabled } from "./firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage, isFirebaseEnabled } from "./firebase";
 import { POSTS, COMMENTS, SITE, TAGS } from "./seed";
 import type { Post, Comment, SiteSettings, TagMap } from "./types";
 
@@ -17,6 +18,28 @@ let memComments: Comment[] = COMMENTS.map((c) => ({ ...c }));
 let memSettings: SiteSettings = { ...SITE };
 
 const sleep = () => new Promise((r) => setTimeout(r, 60));
+
+// ---------- Image upload ----------
+/**
+ * Tải ảnh lên Firebase Storage và trả về URL công khai.
+ * Khi chưa cấu hình Firebase, trả về data URL để xem trước trong bộ nhớ.
+ */
+export async function uploadImage(file: File): Promise<string> {
+  if (isFirebaseEnabled && storage) {
+    const safeName = file.name.replace(/[^\w.-]+/g, "_");
+    const path = `images/${Date.now()}-${safeName}`;
+    const r = ref(storage, path);
+    await uploadBytes(r, file, { contentType: file.type });
+    return getDownloadURL(r);
+  }
+  // fallback (chế độ dữ liệu mẫu): nhúng ảnh dưới dạng data URL
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
 
 // ---------- Tags (static config) ----------
 export function getTags(): TagMap {
