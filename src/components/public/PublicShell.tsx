@@ -16,16 +16,20 @@ const NAV = [
 
 export default function PublicShell({ children }: { children: React.ReactNode }) {
   const [search, setSearch] = useState(false);
+  const [menu, setMenu] = useState(false);
   const [site, setSite] = useState<SiteSettings | null>(null);
   const pathname = usePathname();
 
   useEffect(() => { getSettings().then(setSite); }, []);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setSearch(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { setSearch(false); setMenu(false); } };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  // đóng menu khi đổi trang
+  useEffect(() => { setMenu(false); }, [pathname]);
 
   const title = site?.title ?? "Blog Của Bông";
 
@@ -38,24 +42,32 @@ export default function PublicShell({ children }: { children: React.ReactNode })
               <Logo size={30} />
               <span style={{ fontFamily: "var(--serif)", fontSize: 20, fontWeight: 600, color: "var(--ink)", letterSpacing: "-0.01em" }}>{title}</span>
             </Link>
-            <nav className="pub-nav" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              {NAV.map((l) => {
-                const active = l.href === "/" ? pathname === "/" : pathname === l.href;
-                return (
-                  <Link key={l.href} href={l.href} className="fr"
-                    style={{ padding: "8px 13px", fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: active ? 600 : 450, color: active ? "var(--accent-ink)" : "var(--ink-2)", borderRadius: 8 }}>
-                    {l.label}
-                  </Link>
-                );
-              })}
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <nav className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                {NAV.map((l) => {
+                  const active = l.href === "/" ? pathname === "/" : pathname === l.href;
+                  return (
+                    <Link key={l.href} href={l.href} className="fr"
+                      style={{ padding: "8px 13px", fontFamily: "var(--sans)", fontSize: 14.5, fontWeight: active ? 600 : 450, color: active ? "var(--accent-ink)" : "var(--ink-2)", borderRadius: 8 }}>
+                      {l.label}
+                    </Link>
+                  );
+                })}
+              </nav>
               <button onClick={() => setSearch(true)} className="fr" aria-label="Tìm kiếm"
-                style={{ marginLeft: 6, width: 38, height: 38, display: "grid", placeItems: "center", background: "var(--surface)", border: "1px solid var(--hairline)", borderRadius: 99, color: "var(--ink-2)" }}>
+                style={{ marginLeft: 6, width: 38, height: 38, display: "grid", placeItems: "center", background: "var(--surface)", border: "1px solid var(--hairline)", borderRadius: 99, color: "var(--ink-2)", flexShrink: 0 }}>
                 <Icon name="search" size={17} />
               </button>
-            </nav>
+              <button onClick={() => setMenu(true)} className="fr nav-burger" aria-label="Menu"
+                style={{ display: "none", width: 38, height: 38, placeItems: "center", background: "var(--surface)", border: "1px solid var(--hairline)", borderRadius: 99, color: "var(--ink-2)", flexShrink: 0 }}>
+                <Icon name="menu" size={19} />
+              </button>
+            </div>
           </div>
         </div>
       </header>
+
+      {menu && <MobileMenu nav={NAV} pathname={pathname} title={title} onClose={() => setMenu(false)} onSearch={() => { setMenu(false); setSearch(true); }} />}
 
       <div style={{ flex: 1 }}>{children}</div>
 
@@ -81,6 +93,44 @@ export default function PublicShell({ children }: { children: React.ReactNode })
 }
 
 const footLink: React.CSSProperties = { background: "none", border: "none", padding: "8px 12px", fontFamily: "var(--sans)", fontSize: 14, color: "var(--ink-2)", borderRadius: 7 };
+
+function MobileMenu({ nav, pathname, title, onClose, onSearch }: {
+  nav: { href: string; label: string }[];
+  pathname: string;
+  title: string;
+  onClose: () => void;
+  onSearch: () => void;
+}) {
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, zIndex: 80, background: "rgba(38,33,27,0.32)", backdropFilter: "blur(3px)", display: "flex", justifyContent: "flex-end" }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(300px, 84vw)", height: "100%", background: "var(--paper)", boxShadow: "var(--shadow-lg)", display: "flex", flexDirection: "column", animation: "slideIn 0.28s cubic-bezier(0.2,0.7,0.2,1) both" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 18px", borderBottom: "1px solid var(--hairline)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Logo size={26} />
+            <span style={{ fontFamily: "var(--serif)", fontSize: 17, fontWeight: 600 }}>{title}</span>
+          </div>
+          <button onClick={onClose} className="fr" aria-label="Đóng" style={{ width: 36, height: 36, display: "grid", placeItems: "center", background: "var(--surface)", border: "1px solid var(--hairline)", borderRadius: 99, color: "var(--ink-2)" }}>
+            <Icon name="x" size={18} />
+          </button>
+        </div>
+        <nav className="thin-scroll" style={{ flex: 1, overflowY: "auto", padding: "12px 12px 24px", display: "flex", flexDirection: "column", gap: 2 }}>
+          {nav.map((l) => {
+            const active = l.href === "/" ? pathname === "/" : pathname === l.href;
+            return (
+              <Link key={l.href} href={l.href} onClick={onClose} className="fr"
+                style={{ padding: "13px 14px", fontFamily: "var(--sans)", fontSize: 16, fontWeight: active ? 600 : 450, color: active ? "var(--accent-ink)" : "var(--ink)", background: active ? "var(--accent-soft)" : "none", borderRadius: 9 }}>
+                {l.label}
+              </Link>
+            );
+          })}
+          <button onClick={onSearch} className="fr" style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8, padding: "13px 14px", background: "var(--surface)", border: "1px solid var(--hairline)", borderRadius: 9, fontFamily: "var(--sans)", fontSize: 16, color: "var(--ink-2)", textAlign: "left" }}>
+            <Icon name="search" size={18} /> Tìm bài viết
+          </button>
+        </nav>
+      </div>
+    </div>
+  );
+}
 
 function SearchOverlay({ onClose }: { onClose: () => void }) {
   const [q, setQ] = useState("");

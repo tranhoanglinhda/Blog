@@ -33,7 +33,7 @@
 
 * { box-sizing: border-box; }
 
-html, body { margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; overflow-x: hidden; }
 
 body {
   background: var(--paper);
@@ -86,6 +86,7 @@ input, textarea, select { font-family: inherit; }
 
 /* fade-in — opacity:1 base so content is never hidden if animation is throttled */
 @keyframes fadeUp { from { transform: translateY(8px); } to { transform: none; } }
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: none; } }
 .fade-up { opacity: 1; animation: fadeUp 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 @media (prefers-reduced-motion: reduce) { .fade-up { animation: none; } }
 
@@ -129,11 +130,9 @@ input, textarea, select { font-family: inherit; }
   /* gọn padding ngang cho các khối nội dung rộng */
   .pub-pad { padding-left: 18px !important; padding-right: 18px !important; }
 
-  /* header công khai: thanh chủ đề cuộn ngang */
-  .pub-nav { overflow-x: auto; flex-wrap: nowrap; min-width: 0;
-             -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 2px !important; }
-  .pub-nav::-webkit-scrollbar { display: none; }
-  .pub-nav a, .pub-nav button { flex-shrink: 0; }
+  /* header công khai: ẩn nav ngang, hiện nút hamburger */
+  .nav-desktop { display: none !important; }
+  .nav-burger  { display: grid !important; }
 
   /* trang đăng nhập: ẩn panel trích dẫn */
   .auth-grid  { grid-template-columns: 1fr !important; }
