@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bản đặc tả bàn giao — Sổ Tay Của Mây</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;1,400&family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#FBF7F1;--surface:#fff;--surface-2:#F4EEE4;--ink:#26211B;--ink-2:#6B6055;--ink-3:#9A8E7F;
+    --hairline:#E7DDCE;--hairline-2:#F0E9DC;--accent:#BC5B3A;--accent-ink:#9C462A;--accent-soft:#F0DDD2;
+    --serif:"Noto Serif";--sans:"Be Vietnam Pro",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 28px;}
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:600;letter-spacing:-0.01em;}
+  a{color:var(--accent-ink);}
+  code{font-family:var(--mono);font-size:0.86em;background:var(--surface-2);padding:2px 6px;border-radius:5px;color:var(--accent-ink);}
+  pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:#2B2620;color:#F2E9DC;padding:20px 22px;border-radius:12px;overflow:auto;}
+  pre .k{color:#E0A879;}.pre .c{color:#8A8170;}
+  .eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);}
+  header.hero{background:var(--surface);border-bottom:1px solid var(--hairline);}
+  .badge{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border:1px solid var(--hairline);border-radius:99px;background:var(--paper);font-size:13px;color:var(--ink-2);}
+  section{padding:48px 0;border-bottom:1px solid var(--hairline-2);}
+  .card{background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(38,33,27,.05);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--hairline-2);vertical-align:top;}
+  th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700;}
+  td code{white-space:nowrap;}
+  ul.clean{list-style:none;padding:0;margin:0;}
+  ul.clean li{padding:9px 0 9px 28px;position:relative;border-bottom:1px solid var(--hairline-2);}
+  ul.clean li:before{content:"";position:absolute;left:4px;top:16px;width:8px;height:8px;border-radius:99px;background:var(--accent);}
+  .swatch{height:54px;border-radius:9px;border:1px solid rgba(0,0,0,.06);}
+  .pill{display:inline-block;padding:3px 10px;border-radius:99px;background:var(--surface-2);font-size:12.5px;color:var(--ink-2);margin:0 5px 5px 0;}
+  .note{background:var(--accent-soft);border-radius:12px;padding:16px 20px;font-size:14.5px;color:#7a3f28;}
+  .muted{color:var(--ink-2);}
+  .lead{font-family:var(--serif);font-size:21px;line-height:1.55;color:var(--ink-2);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap" style="padding-top:54px;padding-bottom:50px;">
+    <div class="eyebrow" style="margin-bottom:14px;">Bản đặc tả bàn giao · Dành cho Claude Code</div>
+    <h1 style="font-size:46px;line-height:1.08;margin:0 0 16px;max-width:680px;">Sổ Tay Của Mây — Blog cá nhân &amp; Trang quản trị</h1>
+    <p class="lead" style="margin:0 0 24px;max-width:620px;">Tài liệu này mô tả đầy đủ tính năng, mô hình dữ liệu, sơ đồ trang, hệ thống thiết kế và gợi ý kỹ thuật để dựng sản phẩm thật từ bản prototype.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <span class="badge">📄 Prototype: <code style="background:none;padding:0;">Sổ Tay Của Mây.html</code></span>
+      <span class="badge">⚙️ Stack đề xuất: Next.js + Postgres</span>
+      <span class="badge">🇻🇳 Giao diện tiếng Việt</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:10px;">01 · Tổng quan</div>
+    <h2 style="font-size:30px;margin:0 0 16px;">Sản phẩm là gì</h2>
+    <p class="muted" style="max-width:680px;">Một blog cá nhân theo phong cách tản văn/nhật ký (lấy cảm hứng từ blog gốc của bạn) gồm <strong>2 phần</strong>: trang công khai cho người đọc, và trang quản trị có mật khẩu để tác giả viết, sửa, đăng bài. Toàn bộ giao diện đã được thiết kế trong file prototype — Claude Code chỉ cần dựng lại bằng code thật và gắn cơ sở dữ liệu.</p>
+    <div class="grid2" style="margin-top:24px;">
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:19px;">🌿 Trang công khai</h3>
+        <ul class="clean muted">
+          <li>Trang chủ: bài nổi bật + danh sách + sidebar</li>
+          <li>Trang chi tiết bài viết (typography editorial)</li>
+          <li>Trang theo chủ đề / tag</li>
+          <li>Trang giới thiệu tác giả (About)</li>
+          <li>Tìm kiếm tức thời (overlay)</li>
+          <li>Bình luận của khách (không cần đăng nhập)</li>
+          <li>Sidebar: tiểu sử, bài đọc nhiều, chủ đề, lưu trữ</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:19px;">⚙️ Trang quản trị</h3>
+        <ul class="clean muted">
+          <li>Đăng nhập (email + mật khẩu)</li>
+          <li>Tổng quan: thống kê + bài gần đây</li>
+          <li>Quản lý bài: lọc theo trạng thái, sửa, xóa</li>
+          <li>Trình soạn thảo rich-text + thanh công cụ</li>
+          <li>Ảnh bìa, slug, mô tả ngắn, chủ đề</li>
+          <li>Lưu nháp / Xuất bản · Cài đặt blog</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:10px;">02 · Sơ đồ trang &amp; route</div>
+    <h2 style="font-size:30px;margin:0 0 20px;">Routes</h2>
+    <table>
+      <thead><tr><th>Route</th><th>Trang</th><th>Quyền</th><th>Ghi chú</th></tr></thead>
+      <tbody>
+        <tr><td><code>/</code></td><td>Trang chủ</td><td>Công khai</td><td>Bài nổi bật + feed + sidebar. Tweak bố cục list/grid.</td></tr>
+        <tr><td><code>/bai-viet/[slug]</code></td><td>Chi tiết bài</td><td>Công khai</td><td>Nội dung, tác giả, tag, bài liên quan. Tăng lượt xem.</td></tr>
+        <tr><td><code>/chu-de/[tag]</code></td><td>Theo chủ đề</td><td>Công khai</td><td>Lọc bài theo tag.</td></tr>
+        <tr><td><code>/gioi-thieu</code></td><td>Về tôi</td><td>Công khai</td><td>Tiểu sử + email liên hệ.</td></tr>
+        <tr><td><code>/admin/login</code></td><td>Đăng nhập</td><td>Khách</td><td>Chuyển hướng nếu đã đăng nhập.</td></tr>
+        <tr><td><code>/admin</code></td><td>Tổng quan</td><td>Bảo vệ</td><td>Thống kê + bài gần đây.</td></tr>
+        <tr><td><code>/admin/posts</code></td><td>Quản lý bài</td><td>Bảo vệ</td><td>Bảng + lọc + sửa/xóa.</td></tr>
+        <tr><td><code>/admin/posts/new</code> · <code>/admin/posts/[id]/edit</code></td><td>Soạn thảo</td><td>Bảo vệ</td><td>Editor + rail cài đặt bài.</td></tr>
+        <tr><td><code>/admin/settings</code></td><td>Cài đặt</td><td>Bảo vệ</td><td>Tên blog, tagline, tiểu sử.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:10px;">03 · Mô hình dữ liệu</div>
+    <h2 style="font-size:30px;margin:0 0 20px;">Data model</h2>
+    <pre><span class="k">Post</span> {
+  id            string (uuid)
+  slug          string  unique        // "tuoi-ham-hai"
+  title         string
+  excerpt       string                // mô tả ngắn, hiện ở feed
+  body          richtext (HTML/JSON)  // nội dung bài
+  coverImageUrl string?               // ảnh bìa đã upload
+  coverHue      int                   // tông màu placeholder (prototype)
+  status        enum(draft|published)
+  tags          Tag[]                 // quan hệ nhiều-nhiều
+  readMins      int                   // tự tính từ độ dài
+  views         int     default 0
+  featured      bool    default false
+  authorId      string  -> User
+  publishedAt   datetime?
+  createdAt     datetime
+  updatedAt     datetime
+}
+
+<span class="k">Tag</span>  { id, slug unique, name }            // "gia-dinh" -> "Gia đình"
+
+<span class="k">Comment</span> {                                  // bình luận của khách
+  id        string
+  postId    string  -> Post
+  parentId  string?  -> Comment                  // null = gốc; có giá trị = trả lời (lồng 1 cấp)
+  name      string                              // tên khách (bắt buộc)
+  email     string?                             // tùy chọn, không hiển thị
+  text      string
+  likes     int     default 0                   // lượt tim
+  status    enum(visible|pending|spam)          // để kiểm duyệt
+  createdAt datetime
+}
+// Lượt tim của khách ẩn danh: nên có bảng CommentLike(commentId, visitorId)
+// để chống tim trùng; prototype lưu cờ liked phía client.
+
+<span class="k">User</span> { id, email unique, passwordHash, name, bio, avatarUrl }
+
+<span class="k">SiteSettings</span> { title, tagline, authorName, authorBio, contactEmail }</pre>
+    <div class="note" style="margin-top:20px;">💡 Trong prototype, <code>coverHue</code> sinh ảnh bìa gradient giả lập. Khi dựng thật, thay bằng upload ảnh thực (<code>coverImageUrl</code>) và giữ <code>coverHue</code> làm màu nền dự phòng khi chưa có ảnh.</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:10px;">04 · Tính năng admin chi tiết</div>
+    <h2 style="font-size:30px;margin:0 0 18px;">Yêu cầu chức năng</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:18px;">Trình soạn thảo</h3>
+        <p class="muted" style="margin:0;font-size:14.5px;">Rich-text WYSIWYG: <strong>đậm, nghiêng, tiêu đề (H2), trích dẫn, danh sách, liên kết, chèn ảnh</strong>. Tiêu đề là ô riêng. Gợi ý dùng <code>Tiptap</code> hoặc <code>Lexical</code> thay cho <code>contentEditable</code> thô của prototype.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:18px;">Nháp &amp; Xuất bản</h3>
+        <p class="muted" style="margin:0;font-size:14.5px;">Mỗi bài có trạng thái <code>draft</code>/<code>published</code>. Nút <strong>Lưu nháp</strong> và <strong>Xuất bản</strong>. Nên có tự lưu (autosave) và xác nhận trước khi rời trang.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:18px;">Upload ảnh bìa</h3>
+        <p class="muted" style="margin:0;font-size:14.5px;">Tải ảnh lên kho (S3 / Cloudinary / UploadThing). Hỗ trợ chú thích ảnh. Sinh thumbnail cho feed.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:18px;">Xác thực</h3>
+        <p class="muted" style="margin:0;font-size:14.5px;">Đăng nhập 1 tài khoản tác giả là đủ (single-author). Bảo vệ mọi route <code>/admin/*</code>. Gợi ý: <code>Auth.js (NextAuth)</code> hoặc <code>Lucia</code>.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:18px;">Bình luận của khách</h3>
+        <p class="muted" style="margin:0;font-size:14.5px;">Khách bình luận cuối mỗi bài (<strong>tên + nội dung</strong>, email tùy chọn), <strong>không cần đăng nhập</strong>. Có <strong>trả lời lồng nhau</strong> (1 cấp) và <strong>lượt tim</strong> cho cả bình luận lẫn reply. Avatar sinh từ chữ cái đầu. Kiểm duyệt trong admin: tab Chờ duyệt / Hiển thị / Spam, thao tác Duyệt · Ẩn · Spam · Xóa, kèm chống spam (honeypot/rate-limit).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:10px;">05 · Hệ thống thiết kế</div>
+    <h2 style="font-size:30px;margin:0 0 20px;">Design tokens</h2>
+
+    <h3 style="font-size:17px;margin:0 0 12px;">Màu (mặc định — “clay”)</h3>
+    <div class="grid3" style="margin-bottom:8px;">
+      <div><div class="swatch" style="background:#BC5B3A;"></div><div class="muted" style="font-size:13px;margin-top:6px;">--accent <code>#BC5B3A</code></div></div>
+      <div><div class="swatch" style="background:#9C462A;"></div><div class="muted" style="font-size:13px;margin-top:6px;">--accent-ink <code>#9C462A</code></div></div>
+      <div><div class="swatch" style="background:#F0DDD2;"></div><div class="muted" style="font-size:13px;margin-top:6px;">--accent-soft <code>#F0DDD2</code></div></div>
+      <div><div class="swatch" style="background:#FBF7F1;"></div><div class="muted" style="font-size:13px;margin-top:6px;">--paper <code>#FBF7F1</code></div></div>
+      <div><div class="swatch" style="background:#26211B;"></div><div class="muted" style="font-size:13px;margin-top:6px;">--ink <code>#26211B</code></div></div>
+      <div><div class="swatch" style="background:#E7DDCE;"></div><div class="muted" style="font-size:13px;margin-top:6px;">--hairline <code>#E7DDCE</code></div></div>
+    </div>
+    <p class="muted" style="font-size:14px;">Bản prototype có thêm 4 bảng màu thay thế (sage, indigo, amber, plum) chỉnh được qua panel Tweaks — dùng làm gợi ý chủ đề có thể chọn.</p>
+
+    <h3 style="font-size:17px;margin:26px 0 12px;">Kiểu chữ</h3>
+    <table>
+      <tbody>
+        <tr><td style="width:200px;"><strong style="font-family:var(--serif);">Noto Serif</strong> (serif)</td><td class="muted">Tiêu đề &amp; thân bài. Văn chương, hỗ trợ tiếng Việt đầy đủ (precomposed). Lora / Spectral là lựa chọn thay thế.</td></tr>
+        <tr><td><strong>Be Vietnam Pro</strong> (sans)</td><td class="muted">Giao diện, meta, nút, admin. Thiết kế riêng cho tiếng Việt.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:17px;margin:26px 0 12px;">Quy ước khác</h3>
+    <div>
+      <span class="pill">Bo góc thẻ: 12px</span>
+      <span class="pill">Bo góc nút: 9px</span>
+      <span class="pill">Đo dòng bài viết: ~680px</span>
+      <span class="pill">Khung trang: 1180px</span>
+      <span class="pill">Bóng nhẹ, hairline ấm</span>
+      <span class="pill">Không emoji trong UI thật</span>
+    </div>
+    <div class="note" style="margin-top:20px;">Tất cả token nằm trong <code>blog/styles.css</code> dưới dạng biến CSS <code>--*</code> — copy trực tiếp sang dự án thật.</div>
+  </div>
+</section>
+
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:10px;">06 · Gợi ý kỹ thuật &amp; file</div>
+    <h2 style="font-size:30px;margin:0 0 18px;">Bàn giao</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3 style="margin:0 0 12px;font-size:18px;">Stack đề xuất</h3>
+        <ul class="clean muted" style="font-size:14.5px;">
+          <li>Next.js (App Router) + TypeScript</li>
+          <li>Postgres + Prisma (hoặc Supabase)</li>
+          <li>Auth.js cho đăng nhập tác giả</li>
+          <li>Tiptap/Lexical cho rich-text</li>
+          <li>Cloudinary/UploadThing cho ảnh</li>
+          <li>Tailwind (map theo token ở trên)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 12px;font-size:18px;">File trong prototype</h3>
+        <ul class="clean muted" style="font-size:14.5px;">
+          <li><code>Sổ Tay Của Mây.html</code> — bản chạy được</li>
+          <li><code>styles.css</code> — design tokens</li>
+          <li><code>public.jsx</code> — UI trang công khai</li>
+          <li><code>admin.jsx</code> — UI trang quản trị</li>
+          <li><code>data.js</code> — dữ liệu mẫu (cấu trúc Post)</li>
+          <li><code>helpers.jsx</code> — icon, ảnh bìa, format</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note" style="margin-top:22px;">✅ <strong>Cách dùng:</strong> Mở prototype để xem giao diện &amp; tương tác (bấm “Trang quản trị” ở footer để vào admin). Đưa cả thư mục <code>blog/</code> + tài liệu này cho Claude Code và yêu cầu dựng theo stack đề xuất, bám sát layout và token.</div>
+  </div>
+</section>
+
+<footer style="background:var(--surface);border-top:1px solid var(--hairline);padding:36px 0;">
+  <div class="wrap muted" style="font-size:13.5px;">Sổ Tay Của Mây — bản đặc tả thiết kế · cập nhật 31.05.2026</div>
+</footer>
+
+</body>
+</html>

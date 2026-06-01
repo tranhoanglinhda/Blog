@@ -1,0 +1,48 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Admin = bất kỳ tài khoản đã đăng nhập (Email/Password)
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Chỉ những field này bị thay đổi (so với bản ghi hiện tại)
+    function changedOnly(fields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields);
+    }
+
+    // ---------- Bài viết ----------
+    match /posts/{postId} {
+      allow read: if true;                       // ai cũng đọc được
+      allow create, delete: if isAdmin();        // chỉ admin tạo/xóa
+      // Admin sửa tùy ý; guest chỉ được tăng lượt xem (field "views")
+      allow update: if isAdmin() || changedOnly(['views']);
+    }
+
+    // ---------- Bình luận ----------
+    match /comments/{commentId} {
+      allow read: if true;                       // hiển thị công khai
+
+      // Guest gửi bình luận mới: bắt buộc trạng thái "pending"
+      allow create: if request.resource.data.status == 'pending';
+
+      // Admin kiểm duyệt tùy ý; guest chỉ được đổi số tim ("likes")
+      allow update: if isAdmin() || changedOnly(['likes']);
+
+      allow delete: if isAdmin();                // chỉ admin xóa
+    }
+
+    // ---------- Cài đặt trang ----------
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Chặn mọi collection khác
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

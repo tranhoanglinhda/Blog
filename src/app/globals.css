@@ -1,0 +1,105 @@
+/* ============================================================
+   Sổ Tay — warm literary blog · design tokens & base
+   ============================================================ */
+
+:root {
+  /* color — warm paper / ink / clay accent */
+  --paper:      #FBF7F1;
+  --surface:    #FFFFFF;
+  --surface-2:  #F4EEE4;
+  --ink:        #26211B;
+  --ink-2:      #6B6055;
+  --ink-3:      #9A8E7F;
+  --hairline:   #E7DDCE;
+  --hairline-2: #F0E9DC;
+  --accent:     #BC5B3A;
+  --accent-ink: #9C462A;
+  --accent-soft:#F0DDD2;
+
+  /* type — font families injected by next/font as --font-serif / --font-sans */
+  --serif: var(--font-serif), "Noto Serif", serif;
+  --sans:  var(--font-sans), "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
+
+  /* scale */
+  --content-max: 720px;
+  --shell-max:   1180px;
+  --radius:      6px;
+  --radius-lg:   12px;
+
+  --shadow-sm: 0 1px 2px rgba(38, 33, 27, 0.04), 0 1px 3px rgba(38, 33, 27, 0.06);
+  --shadow-md: 0 4px 16px rgba(38, 33, 27, 0.08), 0 1px 4px rgba(38, 33, 27, 0.05);
+  --shadow-lg: 0 16px 48px rgba(38, 33, 27, 0.14);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--accent-soft); }
+
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.01em; }
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+button { font-family: inherit; cursor: pointer; }
+
+input, textarea, select { font-family: inherit; }
+
+/* utility */
+.serif { font-family: var(--serif); }
+.sans  { font-family: var(--sans); }
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.meta {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* scrollbar */
+.thin-scroll::-webkit-scrollbar { width: 9px; height: 9px; }
+.thin-scroll::-webkit-scrollbar-thumb { background: var(--hairline); border-radius: 99px; border: 2px solid transparent; background-clip: padding-box; }
+.thin-scroll::-webkit-scrollbar-thumb:hover { background: var(--ink-3); background-clip: padding-box; }
+
+/* focus ring */
+.fr:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* fade-in — opacity:1 base so content is never hidden if animation is throttled */
+@keyframes fadeUp { from { transform: translateY(8px); } to { transform: none; } }
+.fade-up { opacity: 1; animation: fadeUp 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .fade-up { animation: none; } }
+
+/* rich-text editor body */
+.editor-body:empty:before { content: attr(data-placeholder); color: var(--ink-3); }
+.editor-body h2 { font-size: 27px; line-height: 1.25; margin: 32px 0 14px; }
+.editor-body blockquote { margin: 28px 0; padding: 4px 0 4px 24px; border-left: 3px solid var(--accent); font-style: italic; font-size: 22px; line-height: 1.45; }
+.editor-body p { margin: 0 0 20px; }
+.editor-body ul { margin: 0 0 20px; padding-left: 24px; }
+.editor-body a { color: var(--accent-ink); text-decoration: underline; }
+
+/* article rendered body */
+.article-body p { margin: 0 0 22px; font-family: var(--serif); font-size: 19px; line-height: 1.72; color: var(--ink); }
+.article-body h2 { font-size: 27px; line-height: 1.25; margin: 40px 0 16px; }
+.article-body blockquote { margin: 32px 0; padding: 4px 0 4px 26px; border-left: 3px solid var(--accent); font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.45; color: var(--ink); }
+.article-body ul { margin: 0 0 22px; padding-left: 26px; font-family: var(--serif); font-size: 19px; line-height: 1.72; }
+.article-body a { color: var(--accent-ink); text-decoration: underline; }
