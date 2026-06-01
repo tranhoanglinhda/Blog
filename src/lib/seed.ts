@@ -3,11 +3,14 @@ import type { Post, Comment, SiteSettings, TagMap, Book } from "./types";
 export const SITE: SiteSettings = {
   title: "Blog Của Bông",
   tagline: "Những mẩu chuyện nhỏ về gia đình, những chuyến đi và ngày thường",
-  author: "Mây Nguyễn",
+  author: "Bông",
   authorBio:
     "Mình viết để giữ lại những điều dễ quên — mùi cà phê sáng, tiếng mưa trên mái tôn, một câu nói của mẹ. Blog này là cuốn sổ tay mình mở ra cho bạn cùng đọc.",
-  email: "may@sotaycuamay.com",
-  footer: "Viết bằng tất cả sự dịu dàng",
+  email: "kiddanbonggg@gmail.com",
+  footer: "Bay lên sao trời trên đôi cánh lợn",
+  avatarUrl: "",
+  about:
+    "Mình không phải nhà văn. Mình chỉ là một người thích quan sát và ghi lại. Những bài viết ở đây phần lớn ra đời vào buổi sáng sớm hoặc đêm khuya, khi thành phố yên tĩnh nhất.\n\nNếu một câu chữ nào đó khiến bạn thấy mình trong đó, thì với mình, thế là đủ.",
 };
 
 export const TAGS: TagMap = {

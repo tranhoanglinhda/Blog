@@ -9,6 +9,10 @@ export interface SiteSettings {
   email: string;
   /** Dòng chữ nhỏ ở chân trang, ví dụ "Viết bằng tất cả sự dịu dàng" */
   footer: string;
+  /** Ảnh đại diện (avatar) cho trang "Về tôi" và sidebar */
+  avatarUrl?: string;
+  /** Giới thiệu dài cho trang "Về tôi" (mỗi đoạn cách nhau một dòng trống) */
+  about?: string;
 }
 
 export type TagMap = Record<string, string>; // slug -> display name

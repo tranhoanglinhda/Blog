@@ -3,15 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon, Logo, CoverArt } from "@/components/ui";
-import { getPosts, getSettings } from "@/lib/repo";
+import { getPosts, getSettings, getTags } from "@/lib/repo";
 import { fmtDate } from "@/lib/format";
 import type { Post, SiteSettings } from "@/lib/types";
 
 const NAV = [
   { href: "/", label: "Trang chủ" },
-  { href: "/chu-de/tan-van", label: "Tản văn" },
-  { href: "/chu-de/gia-dinh", label: "Gia đình" },
-  { href: "/chu-de/du-lich", label: "Du lịch" },
+  ...Object.entries(getTags()).map(([slug, label]) => ({ href: `/chu-de/${slug}`, label })),
   { href: "/sach", label: "Sách mình đọc" },
   { href: "/gioi-thieu", label: "Về tôi" },
 ];
@@ -67,7 +65,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
             <Logo size={26} />
             <div>
               <div style={{ fontFamily: "var(--serif)", fontSize: 16, fontWeight: 600 }}>{title}</div>
-              <div className="meta" style={{ fontSize: 12.5 }}>© 2026 · {site?.footer ?? "Viết bằng tất cả sự dịu dàng"}</div>
+              <div className="meta" style={{ fontSize: 12.5 }}>© 2026 · {site?.footer ?? "Bay lên sao trời trên đôi cánh lợn"}</div>
             </div>
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>

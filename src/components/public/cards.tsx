@@ -95,7 +95,7 @@ export function Sidebar({ posts, site }: { posts: Post[]; site: SiteSettings }) 
     <aside style={{ display: "flex", flexDirection: "column", gap: 30 }}>
       <SideCard>
         <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 14 }}>
-          <div style={{ width: 52, height: 52, borderRadius: 99, background: "linear-gradient(135deg, oklch(0.8 0.08 30), oklch(0.62 0.1 20))", display: "grid", placeItems: "center", color: "#fff", fontFamily: "var(--serif)", fontSize: 22, flexShrink: 0 }}>{site.author.charAt(0)}</div>
+          <div style={{ width: 52, height: 52, borderRadius: 99, overflow: "hidden", background: site.avatarUrl ? `center / cover no-repeat url(${site.avatarUrl})` : "linear-gradient(135deg, oklch(0.8 0.08 30), oklch(0.62 0.1 20))", display: "grid", placeItems: "center", color: "#fff", fontFamily: "var(--serif)", fontSize: 22, flexShrink: 0 }}>{!site.avatarUrl && site.author.charAt(0)}</div>
           <div>
             <div style={{ fontFamily: "var(--serif)", fontSize: 17, fontWeight: 600 }}>{site.author}</div>
             <div className="meta" style={{ fontSize: 12.5 }}>Tác giả</div>
