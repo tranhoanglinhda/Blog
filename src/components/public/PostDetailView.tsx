@@ -42,14 +42,14 @@ export default function PostDetailView({ slug }: { slug: string }) {
 
   return (
     <article>
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "44px 28px 0" }}>
+      <div className="pub-pad" style={{ maxWidth: 760, margin: "0 auto", padding: "44px 28px 0" }}>
         <Link href="/" className="fr" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 26, fontFamily: "var(--sans)", fontSize: 14, fontWeight: 600, color: "var(--ink-2)" }}>
           <Icon name="arrowL" size={15} /> Tất cả bài viết
         </Link>
         <div style={{ display: "flex", gap: 10, marginBottom: 18, justifyContent: "center" }}>
           {post.tags.map((t) => <Link key={t} href={`/chu-de/${t}`} className="eyebrow fr">{TAGS[t]}</Link>)}
         </div>
-        <h1 style={{ margin: "0 0 20px", fontSize: 42, lineHeight: 1.12, textAlign: "center", letterSpacing: "-0.02em" }}>{post.title}</h1>
+        <h1 className="post-title" style={{ margin: "0 0 20px", fontSize: 42, lineHeight: 1.12, textAlign: "center", letterSpacing: "-0.02em" }}>{post.title}</h1>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 32, paddingBottom: 32, borderBottom: "1px solid var(--hairline)" }}>
           <div style={{ width: 38, height: 38, borderRadius: 99, background: "linear-gradient(135deg, oklch(0.8 0.08 30), oklch(0.62 0.1 20))", display: "grid", placeItems: "center", color: "#fff", fontFamily: "var(--serif)", fontSize: 16 }}>{site.author.charAt(0)}</div>
           <span style={{ fontFamily: "var(--sans)", fontSize: 14, color: "var(--ink)" }}>{site.author}</span>
@@ -58,11 +58,11 @@ export default function PostDetailView({ slug }: { slug: string }) {
         </div>
       </div>
 
-      <div style={{ maxWidth: 920, margin: "0 auto 36px", padding: "0 28px" }}>
+      <div className="pub-pad" style={{ maxWidth: 920, margin: "0 auto 36px", padding: "0 28px" }}>
         <CoverArt hue={post.cover.hue} label={post.cover.label} ratio="16 / 8" big url={post.coverImageUrl} />
       </div>
 
-      <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 28px" }}>
+      <div className="pub-pad" style={{ maxWidth: 680, margin: "0 auto", padding: "0 28px" }}>
         <div className="article-body" dangerouslySetInnerHTML={{ __html: post.body }} />
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 9, margin: "40px 0", paddingTop: 32, borderTop: "1px solid var(--hairline)" }}>
@@ -81,10 +81,10 @@ export default function PostDetailView({ slug }: { slug: string }) {
       </div>
 
       {related.length > 0 && (
-        <div style={{ background: "var(--surface)", borderTop: "1px solid var(--hairline)", padding: "56px 28px 72px" }}>
+        <div className="pub-pad" style={{ background: "var(--surface)", borderTop: "1px solid var(--hairline)", padding: "56px 28px 72px" }}>
           <div style={{ maxWidth: "var(--shell-max)", margin: "0 auto" }}>
             <h3 style={{ margin: "0 0 28px", fontSize: 15, fontFamily: "var(--sans)", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--ink-3)" }}>Có thể bạn thích</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
+            <div className="related-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
               {related.map((p) => <GridCard key={p.id} post={p} />)}
             </div>
           </div>

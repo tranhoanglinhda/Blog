@@ -34,14 +34,14 @@ export function PostCard({ post, variant = "row" }: { post: Post; variant?: "row
           <span className="meta">·</span>
           <span className="meta">{fmtDate(post.date)}</span>
         </div>
-        <h2 style={{ margin: "0 0 10px", fontSize: 30, lineHeight: 1.15 }}>{post.title}</h2>
+        <h2 className="feature-h2" style={{ margin: "0 0 10px", fontSize: 30, lineHeight: 1.15 }}>{post.title}</h2>
         <p style={{ margin: 0, fontFamily: "var(--serif)", fontSize: 18, lineHeight: 1.5, color: "var(--ink-2)" }}>{post.excerpt}</p>
         <ReadMeta post={post} />
       </Link>
     );
   }
   return (
-    <Link href={href} className="fade-up"
+    <Link href={href} className="fade-up post-row"
       style={{ cursor: "pointer", display: "grid", gridTemplateColumns: "1fr 168px", gap: 22, paddingBottom: 28, borderBottom: "1px solid var(--hairline-2)" }}>
       <div>
         <div style={{ display: "flex", gap: 10, marginBottom: 9 }}>
@@ -53,7 +53,7 @@ export function PostCard({ post, variant = "row" }: { post: Post; variant?: "row
         <p style={{ margin: 0, fontFamily: "var(--serif)", fontSize: 16, lineHeight: 1.5, color: "var(--ink-2)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{post.excerpt}</p>
         <ReadMeta post={post} />
       </div>
-      <div style={{ alignSelf: "start" }}>
+      <div className="post-row-thumb" style={{ alignSelf: "start" }}>
         <CoverArt hue={post.cover.hue} ratio="4 / 3" label={null} url={post.coverImageUrl} />
       </div>
     </Link>

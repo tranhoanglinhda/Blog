@@ -57,7 +57,7 @@ export default function SettingsView() {
   if (!site) return <div style={{ padding: 60, color: "var(--ink-3)", fontFamily: "var(--sans)" }}>Đang tải…</div>;
 
   return (
-    <div style={{ padding: "32px 40px 60px", maxWidth: 680 }}>
+    <div className="admin-pad" style={{ padding: "32px 40px 60px", maxWidth: 680 }}>
       <PageHead title="Cài đặt" sub="Thông tin chung của blog." />
       <div style={{ background: "var(--surface)", border: "1px solid var(--hairline)", borderRadius: "var(--radius-lg)", padding: 28 }}>
         <Field label="Ảnh đại diện (avatar)">

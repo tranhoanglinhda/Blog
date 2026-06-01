@@ -49,19 +49,19 @@ export default function AdminShell({
   ];
 
   return (
-    <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "248px 1fr", background: "var(--paper)" }}>
-      <aside style={{ borderRight: "1px solid var(--hairline)", background: "var(--surface)", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh" }}>
-        <div style={{ padding: "22px 20px", borderBottom: "1px solid var(--hairline)", display: "flex", alignItems: "center", gap: 10 }}>
+    <div className="admin-shell" style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "248px 1fr", background: "var(--paper)" }}>
+      <aside className="admin-aside" style={{ borderRight: "1px solid var(--hairline)", background: "var(--surface)", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh" }}>
+        <div className="admin-brand" style={{ padding: "22px 20px", borderBottom: "1px solid var(--hairline)", display: "flex", alignItems: "center", gap: 10 }}>
           <Logo size={28} />
           <div>
             <div style={{ fontFamily: "var(--serif)", fontSize: 15.5, fontWeight: 600, lineHeight: 1.1 }}>Blog Của Bông</div>
             <div className="meta" style={{ fontSize: 11.5 }}>Bảng điều khiển</div>
           </div>
         </div>
-        <button onClick={() => router.push("/admin4869/posts/new")} className="fr" style={{ ...primaryBtn, margin: "18px 16px 8px", justifyContent: "center", cursor: "pointer" }}>
+        <button onClick={() => router.push("/admin4869/posts/new")} className="fr admin-newpost" style={{ ...primaryBtn, margin: "18px 16px 8px", justifyContent: "center", cursor: "pointer" }}>
           <Icon name="plus" size={17} /> Viết bài mới
         </button>
-        <nav style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 3 }}>
+        <nav className="admin-nav" style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 3 }}>
           {nav.map((n) => {
             const isActive = active === n.k || (n.k === "posts" && active === "editor");
             return (
@@ -75,7 +75,7 @@ export default function AdminShell({
             );
           })}
         </nav>
-        <div style={{ marginTop: "auto", padding: 12, borderTop: "1px solid var(--hairline)" }}>
+        <div className="admin-foot" style={{ marginTop: "auto", padding: 12, borderTop: "1px solid var(--hairline)" }}>
           <button onClick={() => router.push("/")} className="fr" style={sideBtn}>
             <Icon name="external" size={17} /> Xem trang blog
           </button>
@@ -84,7 +84,7 @@ export default function AdminShell({
           </button>
         </div>
       </aside>
-      <div className="thin-scroll" style={{ overflowY: "auto", maxHeight: "100vh" }}>{children}</div>
+      <div className="thin-scroll admin-main" style={{ overflowY: "auto", maxHeight: "100vh" }}>{children}</div>
     </div>
   );
 }

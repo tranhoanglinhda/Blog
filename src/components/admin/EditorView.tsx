@@ -145,7 +145,7 @@ export default function EditorView({ id }: { id?: string }) {
 
   return (
     <div>
-      <div style={{ position: "sticky", top: 0, zIndex: 20, background: "var(--paper)", borderBottom: "1px solid var(--hairline)", padding: "14px 40px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div className="admin-pad" style={{ position: "sticky", top: 0, zIndex: 20, background: "var(--paper)", borderBottom: "1px solid var(--hairline)", padding: "14px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
         <button onClick={() => router.push("/admin4869/posts")} className="fr" style={{ ...btnGhost, color: "var(--ink-2)", cursor: "pointer" }}><Icon name="arrowL" size={15} /> {isNew ? "Hủy" : "Quay lại"}</button>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           {saved && <span className="meta" style={{ display: "inline-flex", alignItems: "center", gap: 5, color: "oklch(0.5 0.1 150)" }}><Icon name="check" size={15} /> Đã lưu</span>}
@@ -154,9 +154,9 @@ export default function EditorView({ id }: { id?: string }) {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 304px", gap: 0, alignItems: "start" }}>
+      <div className="editor-grid" style={{ display: "grid", gridTemplateColumns: "1fr 304px", gap: 0, alignItems: "start" }}>
         <div style={{ padding: "36px 0 80px", maxWidth: 720, margin: "0 auto", width: "100%" }}>
-          <div style={{ padding: "0 40px" }}>
+          <div className="admin-pad" style={{ padding: "0 40px" }}>
             <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Tiêu đề bài viết"
               style={{ width: "100%", border: "none", outline: "none", background: "none", fontFamily: "var(--serif)", fontSize: 38, fontWeight: 600, color: "var(--ink)", lineHeight: 1.15, marginBottom: 18, letterSpacing: "-0.02em" }} className="fr" />
             <div style={{ marginBottom: 22 }}>
@@ -169,7 +169,7 @@ export default function EditorView({ id }: { id?: string }) {
             </div>
           </div>
 
-          <div style={{ position: "sticky", top: 65, zIndex: 10, padding: "8px 40px", margin: "0 0 14px" }}>
+          <div className="admin-pad" style={{ position: "sticky", top: 65, zIndex: 10, padding: "8px 40px", margin: "0 0 14px" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 2, padding: 5, background: "var(--surface)", border: "1px solid var(--hairline)", borderRadius: 11, boxShadow: "var(--shadow-md)" }}>
               {toolbar.map((b, i) => "sep" in b
                 ? <span key={i} style={{ width: 1, height: 22, background: "var(--hairline)", margin: "0 4px" }} />
@@ -179,12 +179,12 @@ export default function EditorView({ id }: { id?: string }) {
             </div>
           </div>
 
-          <div ref={bodyRef} contentEditable suppressContentEditableWarning className="editor-body thin-scroll"
+          <div ref={bodyRef} contentEditable suppressContentEditableWarning className="editor-body thin-scroll admin-pad"
             style={{ padding: "0 40px", minHeight: 320, outline: "none", fontFamily: "var(--serif)", fontSize: 19, lineHeight: 1.72, color: "var(--ink)" }} />
           <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onFilePicked} />
         </div>
 
-        <div style={{ borderLeft: "1px solid var(--hairline)", minHeight: "calc(100vh - 65px)", background: "var(--surface)", padding: "28px 24px", position: "sticky", top: 65, display: "flex", flexDirection: "column", gap: 26 }}>
+        <div className="editor-rail" style={{ borderLeft: "1px solid var(--hairline)", minHeight: "calc(100vh - 65px)", background: "var(--surface)", padding: "28px 24px", position: "sticky", top: 65, display: "flex", flexDirection: "column", gap: 26 }}>
           <RailSec title="Trạng thái">
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <StatusBadge status={existing?.status || "draft"} />

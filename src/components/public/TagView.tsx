@@ -24,10 +24,10 @@ export default function TagView({ slug }: { slug: string }) {
   const list = published.filter((p) => p.tags.includes(slug)).sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <div style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "52px 28px 80px", display: "grid", gridTemplateColumns: "1fr 312px", gap: 56 }}>
+    <div className="shell-grid pub-pad" style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "52px 28px 80px", display: "grid", gridTemplateColumns: "1fr 312px", gap: 56 }}>
       <main style={{ minWidth: 0 }}>
         <div className="eyebrow" style={{ marginBottom: 12 }}>Chủ đề</div>
-        <h1 style={{ margin: "0 0 8px", fontSize: 40 }}>{TAGS[slug]}</h1>
+        <h1 className="page-h1" style={{ margin: "0 0 8px", fontSize: 40 }}>{TAGS[slug]}</h1>
         <p className="meta" style={{ marginBottom: 40, fontSize: 15 }}>{list.length} bài viết</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
           {list.map((p) => <PostCard key={p.id} post={p} variant="row" />)}

@@ -103,3 +103,65 @@ input, textarea, select { font-family: inherit; }
 .article-body blockquote { margin: 32px 0; padding: 4px 0 4px 26px; border-left: 3px solid var(--accent); font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1.45; color: var(--ink); }
 .article-body ul { margin: 0 0 22px; padding-left: 26px; font-family: var(--serif); font-size: 19px; line-height: 1.72; }
 .article-body a { color: var(--accent-ink); text-decoration: underline; }
+.article-body img { border-radius: var(--radius); margin: 8px 0 22px; }
+
+/* ============================================================
+   Responsive — tablet & mobile (override inline desktop styles)
+   ============================================================ */
+
+/* ≤ 1024px: gập sidebar/rail, thu cột phụ */
+@media (max-width: 1024px) {
+  .shell-grid   { grid-template-columns: 1fr !important; gap: 44px !important; }
+  .editor-grid  { grid-template-columns: 1fr !important; }
+  .editor-rail  { position: static !important; min-height: 0 !important;
+                  border-left: none !important; border-top: 1px solid var(--hairline) !important; }
+  .related-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .stat-grid    { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* ≤ 760px: điện thoại */
+@media (max-width: 760px) {
+  .feature-grid  { grid-template-columns: 1fr !important; }
+  .post-row      { grid-template-columns: 1fr !important; }
+  .post-row-thumb{ display: none !important; }
+  .related-grid  { grid-template-columns: 1fr !important; }
+
+  /* gọn padding ngang cho các khối nội dung rộng */
+  .pub-pad { padding-left: 18px !important; padding-right: 18px !important; }
+
+  /* header công khai: thanh chủ đề cuộn ngang */
+  .pub-nav { overflow-x: auto; flex-wrap: nowrap; min-width: 0;
+             -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 2px !important; }
+  .pub-nav::-webkit-scrollbar { display: none; }
+  .pub-nav a, .pub-nav button { flex-shrink: 0; }
+
+  /* trang đăng nhập: ẩn panel trích dẫn */
+  .auth-grid  { grid-template-columns: 1fr !important; }
+  .auth-quote { display: none !important; }
+
+  /* admin: sidebar -> thanh trên cùng, cuộn ngang */
+  .admin-shell { grid-template-columns: 1fr !important; }
+  .admin-aside { position: sticky !important; top: 0 !important; z-index: 30;
+                 height: auto !important; flex-direction: row !important; align-items: center !important;
+                 overflow-x: auto; gap: 4px; padding: 8px 12px !important;
+                 border-right: none !important; border-bottom: 1px solid var(--hairline) !important; }
+  .admin-aside::-webkit-scrollbar { display: none; }
+  .admin-brand { display: none !important; }
+  .admin-newpost { margin: 0 !important; flex-shrink: 0; padding: 9px 14px !important; }
+  .admin-nav { flex-direction: row !important; padding: 0 !important; gap: 4px !important; }
+  .admin-nav button { flex-shrink: 0; }
+  .admin-foot { margin: 0 !important; padding: 0 !important; border-top: none !important;
+                display: flex !important; flex-shrink: 0; }
+  .admin-main { max-height: none !important; overflow: visible !important; }
+
+  /* thu padding nội dung admin */
+  .admin-pad { padding-left: 18px !important; padding-right: 18px !important; }
+}
+
+/* ≤ 600px: thu tiêu đề lớn */
+@media (max-width: 600px) {
+  .hero-h1    { font-size: 32px !important; }
+  .page-h1    { font-size: 28px !important; }
+  .post-title { font-size: 28px !important; }
+  .feature-h2 { font-size: 24px !important; }
+}

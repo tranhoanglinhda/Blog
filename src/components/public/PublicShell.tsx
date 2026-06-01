@@ -32,13 +32,13 @@ export default function PublicShell({ children }: { children: React.ReactNode })
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <header style={{ borderBottom: "1px solid var(--hairline)", background: "var(--paper)", position: "sticky", top: 0, zIndex: 40 }}>
-        <div style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "0 28px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-            <Link href="/" className="fr" style={{ display: "flex", alignItems: "center", gap: 11 }}>
+        <div className="pub-pad" style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "0 28px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 64, gap: 12 }}>
+            <Link href="/" className="fr" style={{ display: "flex", alignItems: "center", gap: 11, flexShrink: 0 }}>
               <Logo size={30} />
               <span style={{ fontFamily: "var(--serif)", fontSize: 20, fontWeight: 600, color: "var(--ink)", letterSpacing: "-0.01em" }}>{title}</span>
             </Link>
-            <nav style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <nav className="pub-nav" style={{ display: "flex", alignItems: "center", gap: 4 }}>
               {NAV.map((l) => {
                 const active = l.href === "/" ? pathname === "/" : pathname === l.href;
                 return (
@@ -60,7 +60,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
       <div style={{ flex: 1 }}>{children}</div>
 
       <footer style={{ borderTop: "1px solid var(--hairline)", background: "var(--surface)" }}>
-        <div style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "44px 28px", display: "flex", flexWrap: "wrap", gap: 24, justifyContent: "space-between", alignItems: "center" }}>
+        <div className="pub-pad" style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "44px 28px", display: "flex", flexWrap: "wrap", gap: 24, justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
             <Logo size={26} />
             <div>

@@ -27,7 +27,7 @@ export default function LoginView() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr", background: "var(--paper)" }}>
+    <div className="auth-grid" style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr", background: "var(--paper)" }}>
       <div style={{ display: "grid", placeItems: "center", padding: 40 }}>
         <div style={{ width: "min(360px, 100%)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 36 }}>
@@ -59,7 +59,7 @@ export default function LoginView() {
           <Link href="/" className="fr" style={{ ...btnGhost, marginTop: 20, color: "var(--accent-ink)" }}><Icon name="arrowL" size={14} /> Về trang blog</Link>
         </div>
       </div>
-      <div style={{ position: "relative", background: "linear-gradient(150deg, oklch(0.72 0.1 28), oklch(0.5 0.11 18))", overflow: "hidden" }}>
+      <div className="auth-quote" style={{ position: "relative", background: "linear-gradient(150deg, oklch(0.72 0.1 28), oklch(0.5 0.11 18))", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(110% 70% at 70% 20%, rgba(255,255,255,0.3), transparent 50%)" }} />
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 52, color: "#fff" }}>
           <Icon name="quote" size={40} style={{ opacity: 0.5, marginBottom: 18 }} fill="rgba(255,255,255,0.9)" />

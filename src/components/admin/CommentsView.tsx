@@ -69,7 +69,7 @@ export default function CommentsView() {
   ];
 
   return (
-    <div style={{ padding: "32px 40px 60px", maxWidth: 1080 }}>
+    <div className="admin-pad" style={{ padding: "32px 40px 60px", maxWidth: 1080 }}>
       <PageHead title="Bình luận" sub={`${counts.all} bình luận · ${counts.pending} chờ duyệt`} />
       <div style={{ display: "flex", gap: 4, marginBottom: 20, borderBottom: "1px solid var(--hairline)" }}>
         {tabs.map((t) => (

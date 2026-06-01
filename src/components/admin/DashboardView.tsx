@@ -25,9 +25,9 @@ export default function DashboardView() {
   const recent = [...posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
 
   return (
-    <div style={{ padding: "32px 40px 60px", maxWidth: 1080 }}>
+    <div className="admin-pad" style={{ padding: "32px 40px 60px", maxWidth: 1080 }}>
       <PageHead title="Tổng quan" sub="Chào buổi sáng, Mây. Hôm nay viết gì nhỉ?" />
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18, marginBottom: 36 }}>
+      <div className="stat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18, marginBottom: 36 }}>
         {stats.map((s) => (
           <div key={s.label} style={{ padding: 20, background: "var(--surface)", border: "1px solid var(--hairline)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-sm)" }}>
             <div style={{ width: 38, height: 38, borderRadius: 10, background: "var(--accent-soft)", color: "var(--accent-ink)", display: "grid", placeItems: "center", marginBottom: 14 }}><Icon name={s.icon} size={19} /></div>

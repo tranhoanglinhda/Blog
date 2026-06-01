@@ -22,17 +22,17 @@ export default function HomeView() {
   return (
     <div>
       <div style={{ borderBottom: "1px solid var(--hairline)", background: "var(--surface)" }}>
-        <div style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "56px 28px 50px", textAlign: "center" }}>
+        <div className="pub-pad" style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "56px 28px 50px", textAlign: "center" }}>
           <div className="eyebrow" style={{ marginBottom: 16 }}>Nhật ký · Tản văn · Đời thường</div>
-          <h1 style={{ margin: "0 auto 16px", fontSize: 46, lineHeight: 1.08, maxWidth: 760, letterSpacing: "-0.02em" }}>{site.title}</h1>
+          <h1 className="hero-h1" style={{ margin: "0 auto 16px", fontSize: 46, lineHeight: 1.08, maxWidth: 760, letterSpacing: "-0.02em" }}>{site.title}</h1>
           <p style={{ margin: "0 auto", maxWidth: 560, fontFamily: "var(--serif)", fontSize: 19, lineHeight: 1.5, color: "var(--ink-2)", fontStyle: "italic" }}>{site.tagline}</p>
         </div>
       </div>
 
-      <div style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "46px 28px 80px", display: "grid", gridTemplateColumns: "1fr 312px", gap: 56 }}>
+      <div className="shell-grid pub-pad" style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "46px 28px 80px", display: "grid", gridTemplateColumns: "1fr 312px", gap: 56 }}>
         <main style={{ minWidth: 0 }}>
           {featured.length > 0 && (
-            <div style={{ display: "grid", gridTemplateColumns: featured.length > 1 ? "1fr 1fr" : "1fr", gap: 40, marginBottom: 48, paddingBottom: 48, borderBottom: "1px solid var(--hairline)" }}>
+            <div className="feature-grid" style={{ display: "grid", gridTemplateColumns: featured.length > 1 ? "1fr 1fr" : "1fr", gap: 40, marginBottom: 48, paddingBottom: 48, borderBottom: "1px solid var(--hairline)" }}>
               {featured.map((p) => <PostCard key={p.id} post={p} variant="feature" />)}
             </div>
           )}

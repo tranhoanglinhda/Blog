@@ -31,7 +31,7 @@ export default function PostsView() {
   ];
 
   return (
-    <div style={{ padding: "32px 40px 60px", maxWidth: 1080 }}>
+    <div className="admin-pad" style={{ padding: "32px 40px 60px", maxWidth: 1080 }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 26 }}>
         <PageHead title="Bài viết" sub={`${posts.length} bài viết`} />
         <button onClick={() => router.push("/admin4869/posts/new")} className="fr" style={{ ...primaryBtn, cursor: "pointer" }}><Icon name="plus" size={17} /> Viết bài mới</button>

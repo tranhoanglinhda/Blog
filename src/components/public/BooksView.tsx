@@ -34,10 +34,10 @@ export default function BooksView() {
   if (!books) return <Loading />;
 
   return (
-    <div style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "64px 28px 90px" }}>
+    <div className="pub-pad" style={{ maxWidth: "var(--shell-max)", margin: "0 auto", padding: "64px 28px 90px" }}>
       <div style={{ maxWidth: 680, marginBottom: 44 }}>
         <div className="eyebrow" style={{ marginBottom: 12 }}>Sách mình đọc</div>
-        <h1 style={{ margin: "0 0 16px", fontSize: 40, lineHeight: 1.1 }}>Những cuốn sách mình thương</h1>
+        <h1 className="page-h1" style={{ margin: "0 0 16px", fontSize: 40, lineHeight: 1.1 }}>Những cuốn sách mình thương</h1>
         <p style={{ margin: 0, fontFamily: "var(--serif)", fontSize: 19, lineHeight: 1.7, color: "var(--ink-2)" }}>
           Vài cuốn đã đi cùng mình qua những buổi sáng và đêm khuya. Nếu bạn muốn tìm đọc, bấm vào nút bên dưới mỗi cuốn nhé.
         </p>

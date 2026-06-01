@@ -67,7 +67,7 @@ export default function BooksView() {
   const up = (k: keyof Book, v: string) => setEditing((e) => (e ? { ...e, [k]: v } : e));
 
   return (
-    <div style={{ padding: "32px 40px 60px", maxWidth: 1080 }}>
+    <div className="admin-pad" style={{ padding: "32px 40px 60px", maxWidth: 1080 }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 26 }}>
         <PageHead title="Sách mình đọc" sub={`${books.length} cuốn · hiển thị ở trang “Sách mình đọc”`} />
         <button onClick={() => setEditing({ ...EMPTY })} className="fr" style={{ ...primaryBtn, cursor: "pointer" }}><Icon name="plus" size={17} /> Thêm sách</button>
